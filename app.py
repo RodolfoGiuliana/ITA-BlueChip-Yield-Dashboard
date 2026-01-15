@@ -9,7 +9,7 @@ from datetime import datetime
 st.set_page_config(page_title="Investment Certificate Pro", layout="wide")
 
 # --- HEADER E INFO CERTIFICATO ---
-st.title("🏛️ Term Sheet Simulator: Multi-Asset Certificate")
+st.title("🏛️ Simulatore Multi-Asset per Certificati")
 st.markdown("Creato da Rodolfo Giuliana - Analisi interattiva su paniere Generali, Tenaris e Terna.")
 
 st.sidebar.header("⚙️ Parametri del Certificato")
