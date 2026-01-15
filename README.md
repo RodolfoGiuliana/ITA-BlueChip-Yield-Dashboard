@@ -2,6 +2,8 @@
 
 Questo progetto è un framework interattivo sviluppato da Rodolfo Giuliana in **Streamlit** per l'analisi e il monitoraggio di un certificato d'investimento strutturato (simulazione) sui titoli **Generali (G.MI)**, **Tenaris (TEN.MI)** e **Terna (TRN.MI)**.
 
+test LIVE: https://ita-bluechip-yield-dashboard-g4tbkhpj3nyxcjxxcyjk6o.streamlit.app/
+
 ## 🚀 Funzionalità principali
 * **Real-time Data Fetching:** Integrazione con Yahoo Finance per prezzi aggiornati.
 * **Worst-of Logic:** Calcolo automatico del titolo peggiore nel paniere per determinare la tenuta della barriera.
