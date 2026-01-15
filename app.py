@@ -9,7 +9,7 @@ st.set_page_config(page_title="Simulatore Certificato Bancario", layout="wide")
 
 # --- TITOLO E INFO CERTIFICATO ---
 st.title("📊 Simulatore Certificato Investment")
-st.markdown("---")
+st.markdown("Creato da Rodolfo Giuliana")
 
 col_info1, col_info2, col_info3 = st.columns(3)
 with col_info1:
