@@ -87,3 +87,56 @@ st.plotly_chart(fig, use_container_width=True)
 # --- LOGICA DEL "WORST OF" ---
 worst_stock = min(perf_data, key=perf_data.get)
 st.info(f"Il titolo peggiore (Worst-of) al momento è: **{worst_stock}** con una performance del {perf_data[worst_stock]:.2f}%")
+
+
+
+
+import numpy as np
+
+st.markdown("---")
+st.header("🔬 Analisi Quantitativa per l'Emittente")
+
+# --- 1. MATRICE DI CORRELAZIONE ---
+st.subheader("Matrice di Correlazione dei Sottostanti")
+st.write("Un'alta correlazione riduce il rischio del paniere 'Worst-of'.")
+correlation_matrix = data.pct_change().corr()
+st.dataframe(correlation_matrix.style.background_gradient(cmap='RdYlGn'))
+
+# --- 2. SIMULAZIONE MONTE CARLO ---
+st.subheader(f"Simulazione Monte Carlo: {worst_stock} (Worst-of)")
+
+# Parametri Simulazione
+days_to_expiry = 252 # Simuliamo 1 anno di trading
+simulations = 1000
+
+# Calcolo rendimenti e volatilità
+returns = data[tickers[worst_stock]].pct_change()
+mu = returns.mean()
+sigma = returns.std()
+last_price = data[tickers[worst_stock]].iloc[-1]
+
+# Generazione Scenari
+simulation_df = pd.DataFrame()
+for i in range(simulations):
+    daily_returns = np.random.normal(mu, sigma, days_to_expiry)
+    price_path = last_price * (1 + daily_returns).cumprod()
+    simulation_df[i] = price_path
+
+# Visualizzazione Proiezioni
+fig_mc = go.Figure()
+for i in range(50): # Mostriamo solo 50 linee per non appesantire
+    fig_mc.add_trace(go.Scatter(y=simulation_df[i], mode='lines', 
+                               line=dict(width=1), opacity=0.3, showlegend=False))
+
+# Linea Barriera in Monte Carlo
+barrier_price = data[tickers[worst_stock]].iloc[0] * (barrier_level / 100)
+fig_mc.add_hline(y=barrier_price, line_dash="dash", line_color="red", annotation_text="Barriera")
+fig_mc.update_layout(title=f"1.000 Scenari futuri per {worst_stock}", template="plotly_dark")
+st.plotly_chart(fig_mc, use_container_width=True)
+
+# --- 3. PROBABILITÀ DI SUCCESSO ---
+final_prices = simulation_df.iloc[-1]
+prob_above_barrier = (final_prices > barrier_price
+
+
+
