@@ -40,7 +40,8 @@ def get_market_data(symbols):
     return df
 
 try:
-    data = get_market_data(tickers)
+            # Prova a visualizzare con i colori (richiede matplotlib)
+            st.dataframe(corr.style.format("{:.2f}").background_gradient(cmap='Greens', axis=None))
     
     # --- ANALISI PERFORMANCE SOTTOSTANTI ---
     st.header("📈 Analisi Real-Time Sottostanti")
@@ -85,7 +86,7 @@ try:
     
     col_q1, col_q2 = st.columns([1, 2])
     
-    with col_q1:
+   with col_q1:
         st.subheader("Matrice di Correlazione")
         # Calcolo correlazione log-returns
         corr = data.pct_change().corr()
@@ -150,9 +151,11 @@ try:
     )
     st.plotly_chart(fig_payoff, use_container_width=True)
 
-except Exception as e:
-    st.error(f"Errore nel caricamento dati: {e}")
-    st.info("Verifica la connessione internet o i simboli ticker.")
-
+except ImportError:
+            # Se matplotlib manca ancora, mostra la tabella semplice
+            st.dataframe(corr.style.format("{:.2f}"))
+            st.warning("Nota: Installa 'matplotlib' per vedere i colori nella tabella.")
+            
+        st.caption("Una correlazione bassa tra i titoli aumenta il premio (cedola) ma alza il rischio 'Worst-of'.")
 st.markdown("---")
 st.caption("⚠️ Disclaimer: Questa è una simulazione a scopo didattico. Non costituisce consulenza finanziaria.")
