@@ -136,7 +136,19 @@ st.plotly_chart(fig_mc, use_container_width=True)
 
 # --- 3. PROBABILITÀ DI SUCCESSO ---
 final_prices = simulation_df.iloc[-1]
-prob_above_barrier = (final_prices > barrier_price
+# Calcolo: quante volte il prezzo finale è maggiore della barriera?
+prob_above_barrier = (final_prices > barrier_price).sum() / simulations * 100
+
+col_risk1, col_risk2 = st.columns(2)
+with col_risk1:
+    st.metric("Probabilità Rimborso Capitale", f"{prob_above_barrier:.1f}%")
+    st.progress(prob_above_barrier / 100)
+
+with col_risk2:
+    vol_annua = sigma * np.sqrt(252) * 100
+    st.metric("Volatilità Annualizzata", f"{vol_annua:.2f}%")
+
+st.caption("Nota: La simulazione utilizza il modello Geometric Brownian Motion basato sui rendimenti storici.")
 
 
 
